@@ -1,0 +1,5 @@
+# github.io
+HubBoss博客
+C＃序列化有两种方式;
+1.通过Model反序列化;
+2.通过JsonObject反序列化
