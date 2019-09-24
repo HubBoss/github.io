@@ -1,5 +1,67 @@
-# github.io
-HubBoss博客
-C＃序列化有两种方式;
-1.通过Model反序列化;
-2.通过JsonObject反序列化
+using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using System.Web.Script.Serialization;
+
+        //字符串转json
+        public static void strJson()
+        {
+            string jsonText = "{\"shenzheng\":\"深圳\",\"beijing\":\"北京\",\"shanghai\":[{\"zj1\":\"zj11\",\"zj2\":\"zj22\"},\"zjs\"]}";
+            //转为json对象
+            JObject jo = (JObject)JsonConvert.DeserializeObject(jsonText);
+            string zone = jo["shenzheng"].ToString();//输出 深圳
+            string zone_en = jo["shanghai"].ToString();//"[\r\n  {\r\n    \"zj1\": \"zj11\",\r\n    \"zj2\": \"zj22\"\r\n  },\r\n  \"zjs\"\r\n]"
+            string zj1 = jo["shanghai"][1].ToString();//"zjs"
+            Console.WriteLine(jo);
+        }
+        
+        //JsonConvert方式的集合转json
+        string jo =JsonConvert.SerializeObject(ListUserInfoModel);
+
+        //对象与数组转JSON
+        public static void GetJsonString()
+        {
+            //初始化对象
+            Obj product = new Obj() { Name = "苹果", Price = 5.5 };
+            //序列化
+            string o = new JavaScriptSerializer().Serialize(product); //值："{\"Name\":\"苹果\",\"Price\":5.5}"
+
+            //数组转json
+            List<Obj> products = new List<Obj>(){
+            new Obj(){Name="苹果",Price=5.5},
+            new Obj(){Name="橘子",Price=2.5},
+            new Obj(){Name="干柿子",Price=16.00}
+            };
+
+            ProductList productlist = new ProductList();
+            productlist.GetProducts = products;
+            //序列化
+            string os = new JavaScriptSerializer().Serialize(productlist);
+            //输出 "{\"GetProducts\":[{\"Name\":\"苹果\",\"Price\":5.5},{\"Name\":\"橘子\",\"Price\":2.5},{\"Name\":\"干柿子\",\"Price\":16}]}"
+        }
+
+        //json转对象、数组, 反序列化
+        public static void JSONStringToList()
+        {
+
+            //json格式字符串
+            string JsonStr = "{Name:'苹果',Price:5.5}";
+            JavaScriptSerializer Serializer = new JavaScriptSerializer();
+
+            //json字符串转为对象, 反序列化
+            Obj obj = Serializer.Deserialize<Obj>(JsonStr);
+                Console.Write(obj.Name + ":" + obj.Price + "\r\n");
+
+            //json格式字符串
+            string JsonStrs = "[{Name:'苹果',Price:5.5},{Name:'橘子',Price:2.5},{Name:'柿子',Price:16}]";
+
+            JavaScriptSerializer Serializers = new JavaScriptSerializer();
+
+            //json字符串转为数组对象, 反序列化
+            List<Obj> objs = Serializers.Deserialize<List<Obj>>(JsonStrs);
+
+            foreach (var item in objs)
+            {
+               Console.Write(item.Name + ":" + item.Price + "\r\n");
+            }
+        }  
