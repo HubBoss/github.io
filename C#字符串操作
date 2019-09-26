@@ -1,0 +1,13 @@
+     //通过变量截取字符串
+     private string GetDescription(string description, string sLabel, string eLabel) 
+        {
+            int sLocation = description.IndexOf(sLabel, 0) + sLabel.Length;   //开始位置
+            int eLocation = description.IndexOf(eLabel, sLocation);           //结束位置
+            return description.Substring(sLocation, eLocation - sLocation);   //取搜索的条数，用结束的位置-开始的位置,并返回
+        }
+        
+     //调用方法
+     private void Main(){
+        string metaData="<ReportGrid><Title>汇总表</Title><ReportCode>IFRS_TOTAL_DATA</ReportCode><Description>汇总表</Description>";
+        string description=GetDescription(metaData,"<Description>","</Description>");
+     }
